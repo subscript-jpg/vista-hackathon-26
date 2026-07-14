@@ -24,12 +24,12 @@ errors:
     injector: bic_iban_country_mismatch
     description: "CdtrAgt BIC-Land stimmt nicht mit dem Land der Creditor-IBAN ueberein."
 
-  - code: BIC_UNKNOWN
-    title: "BIC unbekannt/inaktiv"
+  - code: BIC_INVALID_COUNTRY
+    title: "BIC mit ungueltigem Laendercode"
     category: routing
     severity: high
-    injector: bic_unknown
-    description: "CdtrAgt BIC ist formatgueltig, aber nicht im BIC-Verzeichnis (Fantasie-BIC)."
+    injector: bic_invalid_country
+    description: "CdtrAgt BIC formatgueltig, aber Position 5-6 ist kein ISO-3166-Laendercode - ohne Zusatzsystem kalkulierbar."
 
   - code: BENEFICIARY_NAME_INCOMPLETE
     title: "Beneficiary-Name unvollstaendig"

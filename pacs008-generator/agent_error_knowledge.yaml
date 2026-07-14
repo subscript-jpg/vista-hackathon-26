@@ -5,8 +5,8 @@
 version: 1.0
 scope: "SWIFT CBPR+ pacs.008.001.08 (SR2025), nur Business-Fehler (XML ist XSD-valide)"
 reference_data_needed:
-  bic_directory: "Gueltige/aktive BICs (Demo: AGENTS-Liste in datapool.py)"
-  iban_registry: "IBAN-Laengen und Formate pro Land (ISO 13616)"
+  iban_registry: "IBAN-Laengen pro Land (ISO 13616) - statisch, siehe pacs008_generator/iban_validator.py"
+  iso_country_list: "ISO-3166-Laendercodes - statisch"
   uetr_history: "Bereits verarbeitete UETRs (Demo: alle Meldungen des Batches)"
 
 errors:
@@ -38,20 +38,20 @@ errors:
     severity: high
     check_fields: ["CdtTrfTxInf/CdtrAgt/FinInstnId/BICFI", "CdtTrfTxInf/CdtrAcct/Id/IBAN"]
     detection: "BIC-Position 5-6 (Laendercode) mit IBAN-Position 1-2 vergleichen; Abweichung = Mismatch. Achtung: legitime Ausnahmen moeglich (z.B. Filial-BICs) -> als Verdacht flaggen."
-    reference_data: ["bic_directory"]
+    reference_data: []
     investigation_type: "UTAP / Routing-Klaerung"
     suggested_action: "Pruefen ob CdtrAgt oder IBAN falsch; korrektes Agent-Institut ermitteln."
     auto_repairable: partially
 
-  - code: BIC_UNKNOWN
-    title: "BIC unbekannt/inaktiv"
+  - code: BIC_INVALID_COUNTRY
+    title: "BIC mit ungueltigem Laendercode"
     category: routing
     severity: high
     check_fields: ["CdtTrfTxInf/CdtrAgt/FinInstnId/BICFI", "alle Agent-BICs"]
-    detection: "Lookup gegen BIC-Verzeichnis; formatgueltig aber nicht gelistet/inaktiv = Treffer."
-    reference_data: ["bic_directory"]
+    detection: "BIC Position 5-6 gegen statische ISO-3166-Laenderliste pruefen - kein externes Verzeichnis noetig. (Produktive Erweiterung waere ein Existenz-Check gegen SWIFTRef.)"
+    reference_data: []
     investigation_type: "Routing / Return moeglich"
-    suggested_action: "Korrekten BIC ermitteln (Name/Adresse des Instituts als Suchbasis); sonst Return pacs.004."
+    suggested_action: "Korrekten BIC ermitteln; BIC ist offensichtlich verfaelscht oder fehlerfasst."
     auto_repairable: partially
 
   - code: BENEFICIARY_NAME_INCOMPLETE

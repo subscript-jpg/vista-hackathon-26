@@ -64,11 +64,12 @@ def _bic_iban_mm(tx, ctx, rng):
         tx["cdtr_agt_bic"], tx["cdtr_agt_bic"][4:6], p["iban"], iban_ctry)
 
 
-@injector("bic_unknown")
-def _bic_unknown(tx, ctx, rng):
-    fake = rng.choice(["QUUXDEZZXXX", "ZAPHGB2LXXX", "NOBKCHZZXXX"])
+@injector("bic_invalid_country")
+def _bic_invalid_country(tx, ctx, rng):
+    fake = rng.choice(["ZAPHZZ22XXX", "QUUXXX33XXX", "NOBKQQ2LXXX"])
     tx["cdtr_agt_bic"] = fake
-    return "CdtrAgt BIC %s existiert nicht im BIC-Verzeichnis" % fake
+    return ("CdtrAgt BIC %s traegt ungueltigen Laendercode '%s' (kein ISO-3166)"
+            % (fake, fake[4:6]))
 
 
 @injector("beneficiary_name_incomplete")
