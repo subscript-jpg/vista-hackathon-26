@@ -94,14 +94,12 @@ def generate_batch(count=10, error_rate=0.3, faulty=None, seed=None,
     if not 0 <= n_bad <= count:
         raise ValueError("faulty muss zwischen 0 und count liegen")
     bad_idx = set(rng.sample(range(count), n_bad))
-    ctx = {"used_uetrs": [], "closed_accounts": []}
+    ctx = {"used_uetrs": []}
     biz_keys = set()
     manifest = {"created": datetime.datetime.now().isoformat(),
                 "run_id": run_id, "seed": seed, "count": count,
                 "error_rate": error_rate, "faulty_requested": n_bad,
-                "schema": "CBPR+ SR2025 pacs.008.001.08", "messages": [],
-                "reference_data": {"closed_accounts": ctx["closed_accounts"],
-                                   "watchlist": errors.WATCHLIST_NAMES}}
+                "schema": "CBPR+ SR2025 pacs.008.001.08", "messages": []}
     if write_files:
         os.makedirs(out_dir, exist_ok=True)
     for i in range(count):

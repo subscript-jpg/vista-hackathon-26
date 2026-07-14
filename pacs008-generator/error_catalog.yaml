@@ -58,17 +58,3 @@ errors:
     severity: medium
     injector: xchg_rate_inconsistent
     description: "InstdAmt (Fremdwaehrung) * XchgRate weicht deutlich vom IntrBkSttlmAmt ab."
-
-  - code: SANCTIONS_NAME_HIT
-    title: "Sanctions-Screening-Treffer (Name)"
-    category: compliance
-    severity: high
-    injector: sanctions_name_hit
-    description: "Cdtr Name entspricht einem Eintrag der (fiktiven) Watchlist - Screening-Hit."
-
-  - code: ACCOUNT_CLOSED
-    title: "Beneficiary-Konto geschlossen (UTAP)"
-    category: beneficiary_data
-    severity: high
-    injector: account_closed
-    description: "Gueltige IBAN, aber Konto in Referenzdaten als geschlossen markiert - Unable to Apply."

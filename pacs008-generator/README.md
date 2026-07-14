@@ -7,8 +7,8 @@ erweiterbaren Fehlerkatalog.
 
 **Design-Prinzip:** Alle Meldungen — auch die fehlerhaften — sind **XSD-valide**
 gegen die offiziellen CBPR+ SR2025 Schemas (`schemas/`). Injizierte Fehler sind
-Geschäftsfehler (IBAN-Prüfziffer, BIC↔IBAN-Mismatch, Beneficiary unvollständig,
-Sanctions-Hit, …), wie sie in der Realität downstream Exceptions auslösen.
+Geschäftsfehler (IBAN-Prüfziffer, BIC↔IBAN-Mismatch, Beneficiary unvollständig, …),
+wie sie in der Realität downstream Exceptions auslösen.
 Jede erzeugte Meldung wird vor dem Output automatisch gegen das XSD geprüft.
 
 ## Quickstart
@@ -28,8 +28,8 @@ python -m pacs008_generator --count 10 --errors IBAN_INVALID_CHECKSUM DUPLICATE_
 ```
 
 Output: `output/NNN_pacs008_{OK|FAULTY}.xml` + **`manifest.json`** (Ground
-Truth: welche Datei welchen Fehler enthält, inkl. Referenzdaten wie
-geschlossene Konten und Watchlist).
+Truth: welche Datei welchen Fehler enthält). Alle Fehler sind aus der Meldung
+bzw. dem Batch selbst erkennbar — keine simulierten Zusatzsysteme.
 
 ## Duplicate-Check-Free (Uniqueness-Garantien)
 
@@ -71,7 +71,7 @@ pacs008_generator/
   api.py         FastAPI-Wrapper
 error_catalog.yaml   Fehlerkatalog — neue Fehler hier + Injektor in errors.py
 schemas/             Offizielle CBPR+ XSDs (MyStandards — nur interner Gebrauch!)
-tests/               pytest-Suite (8 Tests)
+tests/               pytest-Suite
 ```
 
 ## Fehlerkatalog erweitern

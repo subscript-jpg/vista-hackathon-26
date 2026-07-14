@@ -7,8 +7,6 @@ scope: "SWIFT CBPR+ pacs.008.001.08 (SR2025), nur Business-Fehler (XML ist XSD-v
 reference_data_needed:
   bic_directory: "Gueltige/aktive BICs (Demo: AGENTS-Liste in datapool.py)"
   iban_registry: "IBAN-Laengen und Formate pro Land (ISO 13616)"
-  watchlist: "Sanktionslisten-Namen (Demo: manifest.json reference_data.watchlist)"
-  account_status: "Kontostatus offen/geschlossen (Demo: manifest.json reference_data.closed_accounts)"
   uetr_history: "Bereits verarbeitete UETRs (Demo: alle Meldungen des Batches)"
 
 errors:
@@ -99,28 +97,6 @@ errors:
     investigation_type: "Klaerung mit InstgAgt"
     suggested_action: "Korrekten Kurs/Betrag klaeren; Rundungsregeln und Kursdatum beruecksichtigen."
     auto_repairable: partially
-
-  - code: SANCTIONS_NAME_HIT
-    title: "Sanctions-Screening-Treffer (Name)"
-    category: compliance
-    severity: high
-    check_fields: ["CdtTrfTxInf/Cdtr/Nm", "CdtTrfTxInf/Dbtr/Nm"]
-    detection: "Fuzzy-Match (z.B. Jaro-Winkler/Token-Match) der Parteinamen gegen Watchlist; Score-Schwelle fuer Hit vs. Falsch-Positiv."
-    reference_data: ["watchlist"]
-    investigation_type: "RQFI SANC (Request for Information - Sanctions)"
-    suggested_action: "Zahlung sperren, Compliance eskalieren; camt.110 RQFI fuer Zusatzinfos; NIE automatisch freigeben."
-    auto_repairable: false
-
-  - code: ACCOUNT_CLOSED
-    title: "Beneficiary-Konto geschlossen"
-    category: beneficiary_data
-    severity: high
-    check_fields: ["CdtTrfTxInf/CdtrAcct/Id/IBAN"]
-    detection: "Lookup gegen Kontostatus-Referenz (nur CdtrAgt-seitig moeglich); IBAN formal gueltig."
-    reference_data: ["account_status"]
-    investigation_type: "UTAP -> Return pacs.004"
-    suggested_action: "camt.110 UTAP: neue Kontoverbindung anfordern oder Zahlung returnieren."
-    auto_repairable: false
 
 # Hinweis fuer den Agenten: Meldungen koennen theoretisch mehrere Fehler tragen
 # (Generator injiziert aktuell genau einen pro fehlerhafter Meldung).
